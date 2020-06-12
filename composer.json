@@ -4,6 +4,7 @@
     "version": "1.0.0",
     "homepage": "https://github.com/umonkey/php-file-logger/",
     "require": {
+        "php": ">=7.2",
         "psr/log": "^1.1"
     },
     "autoload": {
