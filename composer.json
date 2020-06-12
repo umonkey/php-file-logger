@@ -1,0 +1,21 @@
+{
+    "name": "umonkey/php-file-logger",
+    "description": "Simple PSR-3 compliant file logger",
+    "version": "1.0.0",
+    "type": "library",
+    "minimum-stability": "stable",
+    "require": {
+        "psr/log": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Umonkey\\Logger\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Justin Forest",
+            "email": "hex@umonkey.net"
+        }
+    ]
+}
