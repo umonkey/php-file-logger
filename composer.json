@@ -2,8 +2,7 @@
     "name": "umonkey/php-file-logger",
     "description": "Simple PSR-3 compliant file logger",
     "version": "1.0.0",
-    "type": "library",
-    "minimum-stability": "stable",
+    "homepage": "https://github.com/umonkey/php-file-logger/",
     "require": {
         "psr/log": "^1.1"
     },
