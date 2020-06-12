@@ -1,5 +1,7 @@
 # Simple PSR-3 compliant file logger
 
+Component for use in personal projects.
+
 Installation:
 
 ```
