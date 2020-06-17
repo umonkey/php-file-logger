@@ -18,3 +18,10 @@ $logger = new Umonkey\Logger\FileLogger([
 
 $logger->info('Hello, world.');
 ```
+
+
+## Change log
+
+2020-06-17, v 1.0.1:
+
+- On CLI, duplicate output to stderr.

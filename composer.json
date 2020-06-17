@@ -1,7 +1,7 @@
 {
     "name": "umonkey/php-file-logger",
     "description": "Simple PSR-3 compliant file logger",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "library",
     "minimum-stability": "dev",
     "license": "MIT",

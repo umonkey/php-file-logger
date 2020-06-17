@@ -147,14 +147,16 @@ class FileLogger implements LoggerInterface
             throw new \RuntimeException("could not lock the log file {$fn} for writing");
         }
 
+        if (php_sapi_name() === 'cli') {
+            fwrite(STDERR, $text);
+        }
+
         if (!empty($this->config["symlink"])) {
             if (!file_exists($link = $this->config["symlink"])) {
                 symlink(realpath($fn), $link);
             } elseif (realpath(readlink($link)) != realpath($fn)) {
                 unlink($link);
                 symlink(realpath($fn), $link);
-
-                // TODO: purge old files
             }
         }
     }
