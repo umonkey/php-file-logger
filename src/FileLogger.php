@@ -39,6 +39,8 @@ class FileLogger implements LoggerInterface
         $this->config = array_replace([
             'path' => null,
             'symlink' => null,
+            'keep_files' => 7,
+            'mode' => 0640,
         ], $config);
 
         $this->startup = defined("STARTUP_TS") ? STARTUP_TS : microtime(true);
@@ -130,6 +132,8 @@ class FileLogger implements LoggerInterface
 
         $umask = umask(0117);
 
+        $isNew = !file_exists($fn);
+
         $fp = fopen($fn, "a");
         if ($fp === false) {
             throw new \RuntimeException("could not open log file {$fn} for writing");
@@ -138,6 +142,7 @@ class FileLogger implements LoggerInterface
         umask($umask);
 
         if (flock($fp, LOCK_EX)) {
+            chmod($fn, $this->config['mode']);
             fwrite($fp, $text);
             fflush($fp);
             flock($fp, LOCK_UN);
@@ -151,7 +156,9 @@ class FileLogger implements LoggerInterface
             fwrite(STDERR, $text);
         }
 
-        if (!empty($this->config["symlink"])) {
+        if ($isNew && !empty($this->config["symlink"])) {
+            $this->cleanUpFiles();
+
             if (!file_exists($link = $this->config["symlink"])) {
                 symlink(realpath($fn), $link);
             } elseif (realpath(readlink($link)) != realpath($fn)) {
@@ -169,5 +176,24 @@ class FileLogger implements LoggerInterface
         }
 
         error_log($text);
+    }
+
+    /**
+     * Delete old files.
+     **/
+    protected function cleanUpFiles(): void
+    {
+        $pattern = $this->config['path'];
+        $pattern = preg_replace('@(%.)+@', '*', $pattern);
+
+        $limit = $this->config['keep_files'];
+
+        $files = glob($pattern);
+        if (count($files) > $limit) {
+            $kill = array_slice($files, 0, -$limit);
+            foreach ($kill as $fn) {
+                unlink($fn);
+            }
+        }
     }
 }
