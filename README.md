@@ -23,11 +23,19 @@ $logger->info('Hello, world.');
 ```
 
 
+## Log buffer
+
+All messages are kept in an internal buffer.  You can get its contents using
+`getBuffer()`.  This is handy if you want to log a complete log report to a
+database, or avoid interpolation with other messages.
+
+
 ## Change log
 
 2020-07-07, v 1.1.0:
 
-- Rotate log files, set permissions, create symlinks.
+- Added log rotation, set permissions, create symlinks.
+- Added log buffer.
 
 2020-06-17, v 1.0.1:
 

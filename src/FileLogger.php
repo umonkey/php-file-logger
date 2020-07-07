@@ -34,6 +34,12 @@ class FileLogger implements LoggerInterface
      **/
     protected $startup = null;
 
+    /**
+     * Message log buffer.
+     * @var string
+     **/
+    protected $buffer;
+
     public function __construct(array $config)
     {
         $this->config = array_replace([
@@ -44,6 +50,8 @@ class FileLogger implements LoggerInterface
         ], $config);
 
         $this->startup = defined("STARTUP_TS") ? STARTUP_TS : microtime(true);
+
+        $this->buffer = '';
     }
 
     public function emergency($message, array $context = []): void
@@ -108,6 +116,11 @@ class FileLogger implements LoggerInterface
         }
     }
 
+    public function getBuffer(): string
+    {
+        return $this->buffer;
+    }
+
     protected function logToFile($fn, $prefix, $message): void
     {
         $now = time();
@@ -152,6 +165,8 @@ class FileLogger implements LoggerInterface
             throw new \RuntimeException("could not lock the log file {$fn} for writing");
         }
 
+        $this->buffer .= $text;
+
         if (php_sapi_name() === 'cli') {
             fwrite(STDERR, $text);
         }
@@ -176,6 +191,7 @@ class FileLogger implements LoggerInterface
         }
 
         error_log($text);
+        $this->buffer .= $text;
     }
 
     /**
