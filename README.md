@@ -25,3 +25,9 @@ $logger->info('Hello, world.');
 2020-06-17, v 1.0.1:
 
 - On CLI, duplicate output to stderr.
+
+
+## TODO
+
+- [ ] Log rotation.
+- [ ] Keep session logs in a buffer.
